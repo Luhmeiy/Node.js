@@ -30,7 +30,6 @@ const requestHandler = (req, res) => {
         });
     }
     
-    console.log(req.url, req.method, req.headers);
     res.setHeader('Content-Type', 'text/html')
     res.write('<html>');
     res.write('<head><title>My First Page</title></head>');
@@ -45,4 +44,4 @@ const requestHandler = (req, res) => {
 // }
 
 exports.handler = requestHandler;
-exports.someText = 'Some hard coded text';
+// exports.someText = 'Some hard coded text';
