@@ -1,12 +1,14 @@
 .product-form {
-    width: 20rem;
-    max-width: 90%;
+    display: block;
     margin: auto;
+    max-width: 90%;
+    width: 20rem;
 }
 
 .product-item {
-    width: 20rem;
+    margin: 1rem;
     max-width: 95%;
+    width: 20rem;
 }
 
 .product__title {
@@ -15,9 +17,9 @@
 }
 
 .product__price {
-    text-align: center;
     color: #4d4d4d;
     margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .product__description {
