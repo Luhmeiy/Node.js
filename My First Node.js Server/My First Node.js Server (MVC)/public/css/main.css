@@ -19,6 +19,10 @@ form {
 	display: inline;
 }
 
+.centered {
+	text-align: center;
+}
+
 .main-header {
 	align-items: center;
 	background-color: #00695c;
