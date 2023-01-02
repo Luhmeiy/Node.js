@@ -1,17 +1,18 @@
 const mongodb = require('mongodb');
-const getDb = require('../util/database').getDb;
+const getDB = require('../util/database').getDB;
 
 class Product {
-    constructor(title, price, description, imageUrl, id) {
+    constructor(title, price, description, imageUrl, id, userId) {
         this.title = title;
         this.price = price;
         this.description = description;
         this.imageUrl = imageUrl;
         this._id = id ? new mongodb.ObjectId(id) : null;
+        this.userId = userId;
     }
 
     save() {
-        const db = getDb();
+        const db = getDB();
         let dbOp;
 
         if (this._id) {
@@ -26,7 +27,7 @@ class Product {
     }
 
     static fetchAll() {
-        const db = getDb();
+        const db = getDB();
 
         return db
             .collection('products')
@@ -37,7 +38,7 @@ class Product {
     }
 
     static findById(prodId) {
-        const db = getDb();
+        const db = getDB();
 
         return db
             .collection('products')
@@ -48,7 +49,7 @@ class Product {
     }
 
     static deleteById(prodId) {
-        const db = getDb();
+        const db = getDB();
 
         return db
             .collection('products')

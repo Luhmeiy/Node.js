@@ -16,7 +16,7 @@ const mongoConnect = callback => {
         });
 }
 
-const getDb = () => {
+const getDB = () => {
     if (_db) {
         return _db;
     }
@@ -24,4 +24,4 @@ const getDb = () => {
 }
 
 exports.mongoConnect = mongoConnect;
-exports.getDb = getDb;
+exports.getDB = getDB;
