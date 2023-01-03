@@ -74,6 +74,27 @@ class User {
             .catch(err => console.log(err));
     }
 
+    verifyCart() {
+        const db = getDB();
+
+        return db
+            .collection('products')
+            .find()
+            .toArray()
+            .then(products => {
+                const productIds = products.map(product => {
+                    return product._id.toString();
+                })
+
+                this.cart.items.map(i => {
+                    if (productIds.includes(i.productId.toString()) === false) {
+                        this.deleteItemFromCart(i.productId);
+                    }
+                });
+            })
+            .catch(err => console.log(err));
+    }
+
     deleteItemFromCart(productId) {
         const db = getDB();
 

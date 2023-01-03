@@ -40,6 +40,10 @@ exports.getIndex = (req, res) => {
 
 exports.getCart = (req, res) => {
     req.user
+        .verifyCart()
+        .catch(err => console.log(err));
+
+    req.user
         .getCart()
         .then(products => {
             res.render('shop/cart', {
