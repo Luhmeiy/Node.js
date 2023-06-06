@@ -9,8 +9,35 @@ export async function userRoutes(app: FastifyInstance) {
 		app.log.info(`Responding... ${reply.getResponseTime()}`);
 	});
 
-	app.get(
+	app.addSchema({
+		$id: "createUserSchema",
+		type: "object",
+		required: ["name"],
+		properties: {
+			name: {
+				type: "string",
+			},
+		},
+	});
+
+	app.post(
 		"/",
+		{
+			schema: {
+				body: { $ref: "createUserSchema" },
+				response: {
+					201: {
+						type: "object",
+						properties: {
+							name: {
+								type: "string",
+							},
+							age: { type: "number" },
+						},
+					},
+				},
+			},
+		},
 		async (
 			request: FastifyRequest<{
 				Body: {
@@ -22,15 +49,12 @@ export async function userRoutes(app: FastifyInstance) {
 		) => {
 			const body = request.body;
 
-			const jwt = app.signJwt();
+			// const jwt = app.signJwt();
+			// const verified = app.verifyJwt();
 
-			app.log.info(jwt);
-
-			const verified = app.verifyJwt();
-
-			// return reply.code(201).send(body.name);
+			return reply.code(201).send(body);
 			// return reply.code(201).send(request.user);
-			return reply.code(201).send({ jwt, verified });
+			// return reply.code(201).send({ jwt, verified });
 		}
 	);
 

@@ -1,4 +1,4 @@
-import Fastify, { FastifyRequest } from "fastify";
+import Fastify from "fastify";
 import { userRoutes } from "./routes/userRoutes";
 
 const app = Fastify({
@@ -19,8 +19,8 @@ declare module "fastify" {
 
 app.decorateRequest("user", null);
 
-app.addHook("preHandler", (req) => {
-	req.user = { name: "Bob Jones" };
+app.addHook("preHandler", async (request) => {
+	request.user = { name: "Bob Jones" };
 });
 
 app.decorate("signJwt", () => {

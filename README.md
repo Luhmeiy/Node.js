@@ -1,6 +1,6 @@
-# React
+# Node.js
 
-Collection of small React projects developed during courses or using tutorials.
+Collection of small Node.js projects developed during courses or using tutorials.
 
 ## Where the projects came from
 
@@ -12,3 +12,7 @@ Developed during [NodeJS - The Complete Guide](https://www.udemy.com/course/node
 Developed during [React do Zero a Maestria](https://www.udemy.com/course/react-do-zero-a-maestria-c-hooks-router-api-projetos/) course by [Matheus Battisti](https://www.udemy.com/user/matheus-battisti/):
 
 -   API
+
+Developed during [Learn Just Enough Fastify to be Productive](https://www.youtube.com/watch?v=ZHLB4StAqPM) by [TomDoesTech](https://www.youtube.com/@TomDoesTech)
+
+-   Fastify/basics
