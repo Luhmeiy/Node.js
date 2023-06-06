@@ -1,0 +1,5 @@
+{
+	"watch": ["/"],
+	"ext": "ts",
+	"exec": "pnpm exec ts-node ./main.ts"
+}
