@@ -4,6 +4,10 @@ Collection of small Node.js projects developed during courses or using tutorials
 
 ## Where the projects came from
 
+Developed by me:
+
+-   Fastify/jwt
+
 Developed during [NodeJS - The Complete Guide](https://www.udemy.com/course/nodejs-the-complete-guide/) course by [Maximilian Schwarzmüller](https://www.udemy.com/user/maximilian-schwarzmuller/):
 
 -   My First Node.js Server
