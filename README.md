@@ -20,3 +20,7 @@ Developed during [React do Zero a Maestria](https://www.udemy.com/course/react-d
 Developed during [Learn Just Enough Fastify to be Productive](https://www.youtube.com/watch?v=ZHLB4StAqPM) by [TomDoesTech](https://www.youtube.com/@TomDoesTech)
 
 -   Fastify/basics
+
+Developed during [Node.js Full Course for Beginners](https://www.youtube.com/watch?v=f2EqECiTBL8) by [Dave Gray](https://www.youtube.com/@DaveGrayTeachesCode)
+
+-   authentication
