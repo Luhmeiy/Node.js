@@ -1,9 +1,10 @@
+import { Request, Response } from "express";
 import { writeFile } from "fs/promises";
 import { join } from "path";
 
-import usersData from "../model/users.json";
-import { __dirname } from "../server";
-import { UsersDB } from "../interfaces/UsersDB";
+import usersData from "@/model/users.json";
+import { UsersDB } from "@/interfaces/UsersDB";
+import { __dirname } from "@/server";
 
 const usersDB: UsersDB = {
 	users: usersData,
@@ -12,10 +13,13 @@ const usersDB: UsersDB = {
 	},
 };
 
-const handleLogout = async (req, res) => {
+const handleLogout = async (req: Request, res: Response) => {
 	const cookies = req.cookies;
 
-	if (!cookies?.jwt) return res.sendStatus(401);
+	if (!cookies?.jwt) {
+		res.sendStatus(401);
+		return;
+	}
 
 	const refreshToken = cookies.jwt;
 
@@ -26,11 +30,12 @@ const handleLogout = async (req, res) => {
 	if (!foundUser) {
 		res.clearCookie("jwt", {
 			httpOnly: true,
-			sameSite: "None",
+			sameSite: "none",
 			secure: true,
 		});
 
-		return res.sendStatus(204);
+		res.sendStatus(204);
+		return;
 	}
 
 	const otherUsers = usersDB.users.filter(
@@ -48,7 +53,7 @@ const handleLogout = async (req, res) => {
 
 	res.clearCookie("jwt", {
 		httpOnly: true,
-		sameSite: "None",
+		sameSite: "none",
 		secure: true,
 	});
 

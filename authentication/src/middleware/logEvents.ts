@@ -1,9 +1,9 @@
-import { join } from "path";
 import { format } from "date-fns";
 import { NextFunction, Request, Response } from "express";
 import { existsSync, promises } from "fs";
+import { join } from "path";
 import { v4 as uuid } from "uuid";
-import { __dirname } from "../server";
+import { __dirname } from "@/server";
 
 export const logEvents = async (message: string, logName: string) => {
 	const dateTime = `${format(new Date(), "yyyyMMdd\tHH:mm:ss")}`;

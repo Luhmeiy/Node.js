@@ -4,8 +4,11 @@ export const allowedOrigins = [
 ];
 
 export const corsOptions = {
-	origin: (origin, callback) => {
-		if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+	origin: (
+		origin: string | undefined,
+		callback: (err: Error | null, origin?: boolean) => void
+	) => {
+		if (allowedOrigins.indexOf(origin!) !== -1 || !origin) {
 			callback(null, true);
 		} else {
 			callback(new Error("Not allowed by CORS"));

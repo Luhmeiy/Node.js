@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
 import { compare } from "bcrypt";
+import { Request, Response } from "express";
 import { writeFile } from "fs/promises";
 import { join } from "path";
 
-import usersData from "../model/users.json";
-import { __dirname } from "../server";
-import { UsersDB } from "../interfaces/UsersDB";
+import usersData from "@/model/users.json";
+import { UsersDB } from "@/interfaces/UsersDB";
+import { __dirname } from "@/server";
 
 const usersDB: UsersDB = {
 	users: usersData,
@@ -14,18 +15,22 @@ const usersDB: UsersDB = {
 	},
 };
 
-const handleLogin = async (req, res) => {
+const handleLogin = async (req: Request, res: Response) => {
 	const { user, pwd } = req.body;
 
 	if (!user || !pwd) {
-		return res
-			.status(400)
-			.json({ message: "Username and password are required." });
+		res.status(400).json({
+			message: "Username and password are required.",
+		});
+		return;
 	}
 
 	const foundUser = usersDB.users.find((person) => person.username === user);
 
-	if (!foundUser) return res.sendStatus(401);
+	if (!foundUser) {
+		res.sendStatus(401);
+		return;
+	}
 
 	const match = await compare(pwd, foundUser.password);
 
@@ -58,7 +63,7 @@ const handleLogin = async (req, res) => {
 
 		res.cookie("jwt", refreshToken, {
 			httpOnly: true,
-			sameSite: "None",
+			sameSite: "none",
 			secure: true,
 			maxAge: 24 * 60 * 60 * 1000,
 		});

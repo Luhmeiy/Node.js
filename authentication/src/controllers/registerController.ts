@@ -1,10 +1,11 @@
 import { hash } from "bcrypt";
-import { join } from "path";
+import { Request, Response } from "express";
 import { writeFile } from "fs/promises";
+import { join } from "path";
 
-import usersData from "../model/users.json";
-import { __dirname } from "../server";
-import { UsersDB } from "../interfaces/UsersDB";
+import usersData from "@/model/users.json";
+import { UsersDB } from "@/interfaces/UsersDB";
+import { __dirname } from "@/server";
 
 const usersDB: UsersDB = {
 	users: usersData,
@@ -13,18 +14,22 @@ const usersDB: UsersDB = {
 	},
 };
 
-const handleNewUser = async (req, res) => {
+const handleNewUser = async (req: Request, res: Response) => {
 	const { user, pwd } = req.body;
 
 	if (!user || !pwd) {
-		return res
-			.status(400)
-			.json({ message: "Username and password are required." });
+		res.status(400).json({
+			message: "Username and password are required.",
+		});
+		return;
 	}
 
 	const duplicate = usersDB.users.find((person) => person.username === user);
 
-	if (duplicate) return res.sendStatus(409);
+	if (duplicate) {
+		res.sendStatus(409);
+		return;
+	}
 
 	try {
 		const hashedPwd = await hash(pwd, 10);
@@ -45,7 +50,7 @@ const handleNewUser = async (req, res) => {
 
 		res.status(201).json({ success: `New user ${user} created!` });
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		res.status(500).json({ message: (error as Error).message });
 	}
 };
 

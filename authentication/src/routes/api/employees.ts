@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { employeesController } from "@/controllers/employeesController";
 import { ROLES_LIST } from "@/config/roles_list";
+import { employeesController } from "@/controllers/employeesController";
 import { verifyRoles } from "@/middleware/verifyRoles";
 
 export const router = Router();

@@ -1,17 +1,18 @@
-import employeesData from "../model/employees.json";
+import { Request, Response } from "express";
+import employeesData from "@/model/employees.json";
 
 const data = {
 	employees: employeesData,
-	setEmployees: function (data) {
+	setEmployees: function (data: typeof employeesData) {
 		this.employees = data;
 	},
 };
 
-const getAllEmployees = (req, res) => {
+const getAllEmployees = ({ res }: { res: Response }) => {
 	res.json(data.employees);
 };
 
-const createNewEmployee = (req, res) => {
+const createNewEmployee = (req: Request, res: Response) => {
 	const newEmployee = {
 		id: data.employees?.length
 			? data.employees[data.employees.length - 1].id + 1
@@ -21,24 +22,24 @@ const createNewEmployee = (req, res) => {
 	};
 
 	if (!newEmployee.firstname || !newEmployee.lastname) {
-		return res
-			.status(400)
-			.json({ message: "First and last names are required." });
+		res.status(400).json({ message: "First and last names are required." });
+		return;
 	}
 
 	data.setEmployees([...data.employees, newEmployee]);
 	res.status(201).json(data.employees);
 };
 
-const updateEmployee = (req, res) => {
+const updateEmployee = (req: Request, res: Response) => {
 	const employee = data.employees.find(
 		(emp) => emp.id === parseInt(req.body.id)
 	);
 
 	if (!employee) {
-		return res
-			.status(400)
-			.json({ message: `Employee ID ${req.body.id} not found` });
+		res.status(400).json({
+			message: `Employee ID ${req.body.id} not found`,
+		});
+		return;
 	}
 
 	if (req.body.firstname) employee.firstname = req.body.firstname;
@@ -56,15 +57,16 @@ const updateEmployee = (req, res) => {
 	res.json(data.employees);
 };
 
-const deleteEmployee = (req, res) => {
+const deleteEmployee = (req: Request, res: Response) => {
 	const employee = data.employees.find(
 		(emp) => emp.id === parseInt(req.body.id)
 	);
 
 	if (!employee) {
-		return res
-			.status(400)
-			.json({ message: `Employee ID ${req.body.id} not found` });
+		res.status(400).json({
+			message: `Employee ID ${req.body.id} not found`,
+		});
+		return;
 	}
 
 	const filteredArray = data.employees.filter(
@@ -76,15 +78,16 @@ const deleteEmployee = (req, res) => {
 	res.json(data.employees);
 };
 
-const getEmployee = (req, res) => {
+const getEmployee = (req: Request, res: Response) => {
 	const employee = data.employees.find(
 		(emp) => emp.id === parseInt(req.params.id)
 	);
 
 	if (!employee) {
-		return res
-			.status(400)
-			.json({ message: `Employee ID ${req.params.id} not found` });
+		res.status(400).json({
+			message: `Employee ID ${req.params.id} not found`,
+		});
+		return;
 	}
 
 	res.json(employee);

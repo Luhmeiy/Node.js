@@ -1,6 +1,16 @@
-export const verifyRoles = (...allowedRoles) => {
-	return (req, res, next) => {
-		if (!req?.roles) return res.sendStatus(401);
+import { NextFunction, Request, Response } from "express";
+import { Roles } from "@/interfaces/Roles";
+
+interface CustomRequest extends Request {
+	roles: Roles[];
+}
+
+export const verifyRoles = (...allowedRoles: Roles[]) => {
+	return (req: CustomRequest, res: Response, next: NextFunction) => {
+		if (!req?.roles) {
+			res.sendStatus(401);
+			return;
+		}
 
 		const rolesArray = [...allowedRoles];
 
@@ -8,7 +18,10 @@ export const verifyRoles = (...allowedRoles) => {
 			.map((role) => rolesArray.includes(role))
 			.find((val) => val === true);
 
-		if (!result) return res.sendStatus(401);
+		if (!result) {
+			res.sendStatus(401);
+			return;
+		}
 
 		next();
 	};

@@ -1,9 +1,9 @@
+import { Roles } from "./Roles";
+
 export interface UsersDB {
 	users: {
 		username: string;
-		roles: {
-			[key: string]: number | undefined;
-		};
+		roles: Roles;
 		password: string;
 		refreshToken: string;
 	}[];

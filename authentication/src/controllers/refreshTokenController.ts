@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
+import { Request, Response } from "express";
 
-import usersData from "../model/users.json";
-import { UsersDB } from "../interfaces/UsersDB";
+import usersData from "@/model/users.json";
+import { DecodedUser } from "@/interfaces/DecodedUser";
+import { UsersDB } from "@/interfaces/UsersDB";
 
 const usersDB: UsersDB = {
 	users: usersData,
@@ -10,25 +12,36 @@ const usersDB: UsersDB = {
 	},
 };
 
-const handleRefreshToken = async (req, res) => {
+const handleRefreshToken = async (req: Request, res: Response) => {
 	const cookies = req.cookies;
 
-	if (!cookies?.jwt) return res.sendStatus(401);
+	if (!cookies?.jwt) {
+		res.sendStatus(401);
+		return;
+	}
 
-	const refreshToken = cookies.jwt;
+	const refreshToken = cookies.jwt as string;
 
 	const foundUser = usersDB.users.find(
 		(person) => person.refreshToken === refreshToken
 	);
 
-	if (!foundUser) return res.sendStatus(403);
+	if (!foundUser) {
+		res.sendStatus(403);
+		return;
+	}
 
 	jwt.verify(
 		refreshToken,
 		process.env.REFRESH_TOKEN_SECRET!,
 		(error, decoded) => {
-			if (error || foundUser.username !== decoded.username) {
-				return res.sendStatus(403);
+			if (
+				error ||
+				foundUser.username !==
+					(decoded as DecodedUser).UserInfo.username
+			) {
+				res.sendStatus(403);
+				return;
 			}
 
 			const roles = Object.values(foundUser.roles);

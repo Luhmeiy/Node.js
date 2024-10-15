@@ -1,6 +1,6 @@
 import { Response, Router } from "express";
 import path from "path";
-import { __dirname } from "../server";
+import { __dirname } from "@/server";
 
 export const router = Router();
 
