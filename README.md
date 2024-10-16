@@ -24,3 +24,4 @@ Developed during [Learn Just Enough Fastify to be Productive](https://www.youtub
 Developed during [Node.js Full Course for Beginners](https://www.youtube.com/watch?v=f2EqECiTBL8) by [Dave Gray](https://www.youtube.com/@DaveGrayTeachesCode)
 
 -   authentication
+-   authentication-mongodb
