@@ -5,6 +5,7 @@ import User from "@/model/User";
 
 const handleLogin = async (req: Request, res: Response) => {
 	const { user, pwd } = req.body;
+	const cookies = req.cookies;
 
 	if (!user || !pwd) {
 		res.status(400).json({
@@ -31,16 +32,37 @@ const handleLogin = async (req: Request, res: Response) => {
 			{ expiresIn: "30s" }
 		);
 
-		const refreshToken = jwt.sign(
+		const newRefreshToken = jwt.sign(
 			{ username: foundUser.username },
 			process.env.REFRESH_TOKEN_SECRET!,
 			{ expiresIn: "1d" }
 		);
 
-		foundUser.refreshToken = refreshToken;
+		let newRefreshTokenArray = !cookies?.jwt
+			? foundUser.refreshToken
+			: foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
+
+		if (cookies?.jwt) {
+			const refreshToken = cookies.jwt;
+			const foundToken = await User.findOne({ refreshToken }).exec();
+
+			if (!foundToken) {
+				console.log("Attempted refresh token reuse at login.");
+
+				newRefreshTokenArray = [];
+			}
+
+			res.clearCookie("jwt", {
+				httpOnly: true,
+				sameSite: "none",
+				secure: true,
+			});
+		}
+
+		foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
 		await foundUser.save();
 
-		res.cookie("jwt", refreshToken, {
+		res.cookie("jwt", newRefreshToken, {
 			httpOnly: true,
 			sameSite: "none",
 			secure: true,

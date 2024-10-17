@@ -17,7 +17,7 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	refreshToken: String,
+	refreshToken: [String],
 });
 
 export default model("User", userSchema);

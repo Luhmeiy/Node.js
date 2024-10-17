@@ -11,7 +11,7 @@ import { connectDB } from "./config/dbConn";
 import { errorHandler } from "./middleware/errorHandler";
 import { credentials } from "./middleware/credentials";
 import { logger } from "./middleware/logEvents";
-import { verifyJWT } from "./middleware/verifyJWT";
+import { router } from "./routes/router";
 
 config();
 connectDB();
@@ -30,22 +30,7 @@ app.use(cookieParser());
 
 app.use("/", express.static(resolve(__dirname, "/public")));
 
-// Routes
-import { router as rootRoutes } from "./routes/root";
-import { router as registerRoutes } from "./routes/register";
-import { router as authRoutes } from "./routes/auth";
-import { router as refreshRoutes } from "./routes/refresh";
-import { router as logoutRoutes } from "./routes/logout";
-import { router as employeesRoutes } from "./routes/api/employees";
-
-app.use("/", rootRoutes);
-app.use("/register", registerRoutes);
-app.use("/auth", authRoutes);
-app.use("/refresh", refreshRoutes);
-app.use("/logout", logoutRoutes);
-
-app.use(verifyJWT);
-app.use("/employees", employeesRoutes);
+app.use(router);
 
 app.all("*", (req, res) => {
 	res.status(404);
